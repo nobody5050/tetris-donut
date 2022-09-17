@@ -5,7 +5,8 @@
   "description": "npm init template for bootstrapping an empty Colyseus project",
   "main": "lib/index.js",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start:backend": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start:frontend": "parcel src/frontend/index.html",
     "loadtest": "colyseus-loadtest loadtest/example.ts --room my_room --numClients 2",
     "build": "npm run clean && tsc && node node_modules/copyfiles/copyfiles package.json ./lib && node node_modules/copyfiles/copyfiles arena.env ./lib",
     "clean": "node node_modules/rimraf/bin lib",
@@ -23,8 +24,10 @@
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.1",
     "@types/mocha": "^8.2.3",
+    "@types/serve-index": "^1.9.1",
     "copyfiles": "^2.4.1",
     "mocha": "^9.0.2",
+    "parcel": "^2.7.0",
     "rimraf": "^2.7.1",
     "ts-node": "^8.1.0",
     "ts-node-dev": "^1.0.0-pre.63",
@@ -34,7 +37,9 @@
     "@colyseus/arena": "^0.14.22",
     "@colyseus/monitor": "^0.14.20",
     "colyseus": "^0.14.20",
+    "colyseus.js": "^0.14.13",
     "cors": "^2.8.5",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "serve-index": "^1.9.1"
   }
 }

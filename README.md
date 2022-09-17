@@ -7,7 +7,8 @@ This project has been created using [⚔️ `create-colyseus-app`](https://githu
 ## :crossed_swords: Usage
 
 ```
-npm start
+yarn run start:frontend
+yarn run start:backend
 ```
 
 ## Structure

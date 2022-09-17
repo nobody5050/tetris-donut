@@ -1,5 +1,8 @@
 import Arena from "@colyseus/arena";
 import { monitor } from "@colyseus/monitor";
+import path from 'path';
+import serveIndex from 'serve-index';
+import express from 'express';
 
 /**
  * Import your Room files
@@ -13,7 +16,7 @@ export default Arena({
         /**
          * Define your room handlers:
          */
-        gameServer.define('my_room', GameRoom);
+        gameServer.define('game', GameRoom);
 
     },
 
@@ -21,9 +24,8 @@ export default Arena({
         /**
          * Bind your custom express routes here:
          */
-        app.get("/", (req, res) => {
-            res.send("It's time to kick ass and chew bubblegum!");
-        });
+         //app.use('/', serveIndex(path.join(__dirname, "static"), {'icons': true}))
+         app.use('/', express.static(path.join(__dirname, "../dist")));
 
         /**
          * Bind @colyseus/monitor
