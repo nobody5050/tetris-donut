@@ -30,7 +30,7 @@ const BLOCKS = [
             super();
             this.rows = 2;
             this.cols = 2;
-            this.color = 0xCCCC00;
+            this.color = 0xcccc00;
             this.values = new ArraySchema<number>(...(this.orientations[this.currentOrientation]));
         }
 
@@ -53,7 +53,7 @@ const BLOCKS = [
             super();
             this.rows = 3;
             this.cols = 3;
-            this.color = 0xFF00FF;
+            this.color = 0xff00ff;
             this.values = new ArraySchema<number>(...(this.orientations[this.currentOrientation]));
         }
 
@@ -96,7 +96,7 @@ const BLOCKS = [
             this.rows = 3;
             this.cols = 3;
             this.values = new ArraySchema<number>(...(this.orientations[this.currentOrientation]));
-            this.color = 0xFF4D4D;
+            this.color = 0xff4d4d;
         }
 
         rotate<Block extends Tetromino>(): Block {
@@ -117,7 +117,7 @@ const BLOCKS = [
             this.rows = 3;
             this.cols = 3;
             this.values = new ArraySchema<number>(...(this.orientations[this.currentOrientation]));
-            this.color = 0x00FF00;
+            this.color = 0xffff00;
         }
 
         rotate<Block extends Tetromino>(): Block {
@@ -173,6 +173,26 @@ const BLOCKS = [
             return newBlock as Block;
         }
     },
+    class Donut extends Tetromino {
+        orientations = <number[][]>[
+            [1, 1, 1, 1, 0, 1, 1, 1, 1],
+        ];
+
+        constructor() {
+            super();
+            this.rows = 3;
+            this.cols = 3;
+            this.values = new ArraySchema<number>(...(this.orientations[this.currentOrientation]));
+            this.color = 0xFFFFFF;
+        }
+
+        rotate<Block extends Tetromino>(): Block {
+            const newBlock = new Donut();
+            const nextOrientation = (this.currentOrientation + 1) % this.orientations.length;
+            newBlock._rotate(nextOrientation);
+            return newBlock as Block;
+        }
+    }
 ];
 
 export const getRandomBlock = () => {

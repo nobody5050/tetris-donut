@@ -1,14 +1,14 @@
 import { Room, Client, Delayed } from "colyseus";
 import { GameState } from "./schema/GameState";
 import { Position } from "./schema/PositionState";
-import { collidesWithBoard, isBottomOutOfBounds, isRowCompleted, isRowEmpty } from "../validation"
+import { collidesWithBoard, isBottomOutOfBounds, isRowCompleted, isRowEmpty, isLeftOutOfBounds, isRightOutOfBounds, keepTetrominoInsideBounds } from "../validation"
 import { addEmptyRowToBoard, deleteRowsFromBoard, freezeCurrentTetromino } from "./schema/MutationState";
 import { getRandomBlock } from "./schema/TetrominoState";
 import { computeScoreForClearedLines } from "../scoring";
+import { Movement } from "../messages/movement";
 
 
 export class GameRoom extends Room<GameState> {
-	maxClients: 2;
 	private DEFAULT_ROWS = 20;
 	private DEFAULT_COLS = 10;
 	private DEFAULT_LEVEL = 0;
@@ -117,8 +117,31 @@ export class GameRoom extends Room<GameState> {
     }
 
 	onCreate(options: any) {
+		this.maxClients = 2;
 		this.setState(new GameState(this.DEFAULT_ROWS, this.DEFAULT_COLS, this.DEFAULT_LEVEL));
 		this.startGameLoop();
+		this.onMessage("rotate", (client, _) => {
+			const rotatedBlock = this.state.currentBlock.rotate();
+			const rotatedPosition = keepTetrominoInsideBounds(this.state.board, rotatedBlock, this.state.currentPosition);
+			if (!collidesWithBoard(this.state.board, rotatedBlock, rotatedPosition)) {
+				this.state.currentBlock = rotatedBlock;
+				this.state.currentPosition = rotatedPosition;
+			}
+		});
+		this.onMessage("move", (client, message: Movement) => {
+			const nextPosition = new Position(
+				this.state.currentPosition.row + message.row,
+				this.state.currentPosition.col + message.col
+			);
+			if (
+				!isLeftOutOfBounds(this.state.board, this.state.currentBlock, nextPosition) &&
+				!isRightOutOfBounds(this.state.board, this.state.currentBlock, nextPosition) &&
+				!isBottomOutOfBounds(this.state.board, this.state.currentBlock, nextPosition) &&
+				!collidesWithBoard(this.state.board, this.state.currentBlock, nextPosition)
+			) {
+				this.state.currentPosition = nextPosition;
+			}
+		});
 	}
 
 	onJoin(client: Client, options: any) {

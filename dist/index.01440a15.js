@@ -695,7 +695,7 @@ const BLOCKS = [
             super();
             this.rows = 2;
             this.cols = 2;
-            this.color = 0xCCCC00;
+            this.color = 0xcccc00;
             this.values = new (0, _schema.ArraySchema)(...this.orientations[this.currentOrientation]);
         }
         rotate() {
@@ -756,7 +756,7 @@ const BLOCKS = [
             super();
             this.rows = 3;
             this.cols = 3;
-            this.color = 0xFF00FF;
+            this.color = 0xff00ff;
             this.values = new (0, _schema.ArraySchema)(...this.orientations[this.currentOrientation]);
         }
         rotate() {
@@ -849,7 +849,7 @@ const BLOCKS = [
             this.rows = 3;
             this.cols = 3;
             this.values = new (0, _schema.ArraySchema)(...this.orientations[this.currentOrientation]);
-            this.color = 0xFF4D4D;
+            this.color = 0xff4d4d;
         }
         rotate() {
             const newBlock = new Z();
@@ -888,7 +888,7 @@ const BLOCKS = [
             this.rows = 3;
             this.cols = 3;
             this.values = new (0, _schema.ArraySchema)(...this.orientations[this.currentOrientation]);
-            this.color = 0x00FF00;
+            this.color = 0xffff00;
         }
         rotate() {
             const newBlock = new S();
@@ -1018,7 +1018,35 @@ const BLOCKS = [
             newBlock._rotate(nextOrientation);
             return newBlock;
         }
-    }, 
+    },
+    class Donut extends Tetromino {
+        orientations = [
+            [
+                0,
+                1,
+                0,
+                1,
+                1,
+                1,
+                0,
+                1,
+                0
+            ], 
+        ];
+        constructor(){
+            super();
+            this.rows = 3;
+            this.cols = 3;
+            this.values = new (0, _schema.ArraySchema)(...this.orientations[this.currentOrientation]);
+            this.color = 0x000000;
+        }
+        rotate() {
+            const newBlock = new Donut();
+            const nextOrientation = (this.currentOrientation + 1) % this.orientations.length;
+            newBlock._rotate(nextOrientation);
+            return newBlock;
+        }
+    }
 ];
 const getRandomBlock = ()=>{
     const _getRandomBlock = (type)=>{
