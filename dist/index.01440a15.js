@@ -612,6 +612,10 @@ document.addEventListener("DOMContentLoaded", async ()=>{
             else if (ev.code === "ArrowLeft") room.send("move", (0, _movement.LEFT));
             else if (ev.code === "ArrowRight") room.send("move", (0, _movement.RIGHT));
             else if (ev.code === "ArrowDown") room.send("move", (0, _movement.DOWN));
+            else if (ev.code === "KeyD") {
+                console.log("donut");
+                room.send("donut", {});
+            }
         });
         return room;
     });
@@ -664,6 +668,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Tetromino", ()=>Tetromino);
 parcelHelpers.export(exports, "getRandomBlock", ()=>getRandomBlock);
+parcelHelpers.export(exports, "setNextBlockDonut", ()=>setNextBlockDonut);
 var _tsDecorateMjs = require("@swc/helpers/src/_ts_decorate.mjs");
 var _tsDecorateMjsDefault = parcelHelpers.interopDefault(_tsDecorateMjs);
 var _schema = require("@colyseus/schema");
@@ -1022,15 +1027,15 @@ const BLOCKS = [
     class Donut extends Tetromino {
         orientations = [
             [
-                0,
+                1,
+                1,
+                1,
                 1,
                 0,
                 1,
                 1,
                 1,
-                0,
-                1,
-                0
+                1
             ], 
         ];
         constructor(){
@@ -1038,7 +1043,7 @@ const BLOCKS = [
             this.rows = 3;
             this.cols = 3;
             this.values = new (0, _schema.ArraySchema)(...this.orientations[this.currentOrientation]);
-            this.color = 0x000000;
+            this.color = 0xFFFFFF;
         }
         rotate() {
             const newBlock = new Donut();
@@ -1054,6 +1059,10 @@ const getRandomBlock = ()=>{
     };
     const nextBlock = BLOCKS[Math.floor(Math.random() * BLOCKS.length)];
     return _getRandomBlock(nextBlock);
+};
+const setNextBlockDonut = ()=>{
+    const nextBlock = BLOCKS[BLOCKS.length - 1];
+    return new nextBlock();
 };
 
 },{"@swc/helpers/src/_ts_decorate.mjs":"6yEaS","@colyseus/schema":"77vsq","./BoardState":"bJUbn","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6yEaS":[function(require,module,exports) {

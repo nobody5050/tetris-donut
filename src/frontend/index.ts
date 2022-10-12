@@ -112,6 +112,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             } else if (ev.code === "ArrowDown") {
                 room.send("move", DOWN);
             }
+            else if (ev.code === "KeyD") {
+                console.log("donut")
+                room.send("donut", {});
+            }
         })
         return room;
     });

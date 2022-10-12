@@ -3,7 +3,7 @@ import { GameState } from "./schema/GameState";
 import { Position } from "./schema/PositionState";
 import { collidesWithBoard, isBottomOutOfBounds, isRowCompleted, isRowEmpty, isLeftOutOfBounds, isRightOutOfBounds, keepTetrominoInsideBounds } from "../validation"
 import { addEmptyRowToBoard, deleteRowsFromBoard, freezeCurrentTetromino } from "./schema/MutationState";
-import { getRandomBlock } from "./schema/TetrominoState";
+import { getRandomBlock, setNextBlockDonut } from "./schema/TetrominoState";
 import { computeScoreForClearedLines } from "../scoring";
 import { Movement } from "../messages/movement";
 
@@ -141,6 +141,11 @@ export class GameRoom extends Room<GameState> {
 			) {
 				this.state.currentPosition = nextPosition;
 			}
+		});
+		this.onMessage("donut", (client, message: Movement) => {
+			// set the next block to a donut
+			this.state.nextBlock = setNextBlockDonut();
+			console.log("donut");
 		});
 	}
 

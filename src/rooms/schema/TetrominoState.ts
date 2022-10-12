@@ -202,3 +202,8 @@ export const getRandomBlock = () => {
     const nextBlock = BLOCKS[Math.floor(Math.random() * BLOCKS.length)];
     return _getRandomBlock(nextBlock);
 }
+
+export const setNextBlockDonut = () => {
+    const nextBlock = BLOCKS[BLOCKS.length - 1];
+    return new nextBlock();
+}
